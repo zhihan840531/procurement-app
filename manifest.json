@@ -1,0 +1,17 @@
+{
+  "name": "總務採購管理",
+  "short_name": "總務採購",
+  "description": "總務採購負責人與品項管理",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f5f4f0",
+  "theme_color": "#1a1a2e",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='32' fill='%232d5be3'/><text x='50%' y='55%' font-size='90' text-anchor='middle' dominant-baseline='middle' fill='white'>採</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}
