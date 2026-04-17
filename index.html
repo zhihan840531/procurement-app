@@ -10,476 +10,445 @@
 <title>總務採購管理</title>
 <link rel="manifest" href="manifest.json">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+:root {
+  --blue:#72A9FF; --blue-light:#c8dcff; --blue-deep:#2a5fcf;
+  --yellow:#FFE958;
+  --gray-cool:#D7E0E6;
+  --bg:#eef4fb; --surface:#fff; --surface2:#deeaf8;
+  --text:#1a2a3a; --text2:#4a6070; --text3:#8fa3af;
+  --border:rgba(114,169,255,0.18);
+  --mandy:#e06fa0; --mandy-bg:#fce8f2;
+  --jean:#c49a00;  --jean-bg:#fff9d0;
+  --kassy:#5a7ee0; --kassy-bg:#dce5ff;
+  --isabel:#3aaa7a;--isabel-bg:#d0f5e6;
+  --supplier:#2a5fcf;--supplier-bg:#deeaf8;
+  --r:16px; --tab-h:64px; --hh:56px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);min-height:100dvh;overflow-x:hidden}
 
-  :root {
-    --blue: #72A9FF;
-    --blue-light: #c8dcff;
-    --blue-deep: #2a5fcf;
-    --yellow: #FFE958;
-    --yellow-dark: #b89a00;
-    --gray-cool: #D7E0E6;
-    --gray-cool-dark: #8fa3af;
-    --bg: #eef4fb;
-    --surface: #ffffff;
-    --surface2: #deeaf8;
-    --text: #1a2a3a;
-    --text2: #4a6070;
-    --text3: #8fa3af;
-    --border: rgba(114,169,255,0.18);
-    --accent: #72A9FF;
-    --accent-bg: #deeaf8;
-    --mandy: #e06fa0; --mandy-bg: #fce8f2;
-    --jean: #c49a00; --jean-bg: #fff9d0;
-    --kassy: #5a7ee0; --kassy-bg: #dce5ff;
-    --isabel: #3aaa7a; --isabel-bg: #d0f5e6;
-    --supplier: #2a5fcf; --supplier-bg: #deeaf8;
-    --done-bg: #d0f5e6; --done-text: #1a7a50;
-    --radius: 16px;
-    --radius-sm: 10px;
-    --tab-h: 64px;
-    --header-h: 60px;
-  }
+.hdr{position:sticky;top:0;z-index:200;height:var(--hh);background:var(--blue);display:flex;align-items:center;padding:0 16px;gap:10px}
+.hdr-title{font-size:18px;font-weight:700;color:#fff;flex:1}
+.hdr-badge{background:rgba(255,255,255,0.25);color:#fff;font-size:11px;font-weight:500;padding:3px 10px;border-radius:999px}
+.hdr-btn{font-size:12px;color:rgba(255,255,255,0.85);background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);border-radius:999px;padding:4px 10px;cursor:pointer}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+.bnav{position:fixed;bottom:0;left:0;right:0;z-index:200;height:var(--tab-h);background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;padding-bottom:env(safe-area-inset-bottom)}
+.bnav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:var(--text3);background:none;border:none;cursor:pointer;padding:8px 0;transition:color 0.15s}
+.bnav-btn svg{width:22px;height:22px}
+.bnav-btn.active{color:var(--blue-deep);font-weight:700}
 
-  body {
-    font-family: 'Noto Sans TC', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100dvh;
-    overflow-x: hidden;
-  }
+.page{display:none;padding-bottom:calc(var(--tab-h)+16px)}
+.page.active{display:block}
 
-  /* ── HEADER ── */
-  .header {
-    position: sticky; top: 0; z-index: 100;
-    height: var(--header-h);
-    background: var(--blue);
-    border-bottom: none;
-    display: flex; align-items: center; padding: 0 16px;
-    gap: 10px;
-  }
-  .header-title { font-size: 18px; font-weight: 700; flex: 1; color: #fff; letter-spacing: 0.02em; }
-  .header-badge {
-    background: rgba(255,255,255,0.25); color: #fff;
-    font-size: 12px; font-weight: 500;
-    padding: 3px 10px; border-radius: 999px;
-  }
-  .reset-btn {
-    font-size: 13px; color: rgba(255,255,255,0.85);
-    background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 999px; padding: 4px 10px; cursor: pointer;
-  }
+/* HOME */
+.home-hero{background:var(--blue);padding:18px 16px 26px;color:#fff}
+.home-greeting{font-size:13px;opacity:0.85;margin-bottom:4px}
+.home-bigtitle{font-size:22px;font-weight:700;margin-bottom:16px}
+.home-prog-row{display:flex;justify-content:space-between;font-size:12px;opacity:0.9;margin-bottom:6px}
+.home-prog-bg{background:rgba(255,255,255,0.3);border-radius:999px;height:8px;overflow:hidden}
+.home-prog-fill{height:100%;border-radius:999px;background:#fff;transition:width 0.4s}
 
-  /* ── SEARCH ── */
-  .search-wrap { padding: 10px 16px; background: var(--blue); border-bottom: none; }
-  .search-input {
-    width: 100%; padding: 9px 16px;
-    background: rgba(255,255,255,0.9); border: none; border-radius: 999px;
-    font-size: 15px; font-family: inherit; color: var(--text);
-    outline: none;
-  }
-  .search-input::placeholder { color: var(--text3); }
+.home-sec{padding:16px 16px 0}
+.home-sec-label{font-size:12px;font-weight:700;color:var(--text3);letter-spacing:0.07em;margin-bottom:10px}
 
-  /* ── TABS ── */
-  .tabs {
-    display: flex; overflow-x: auto; gap: 6px;
-    padding: 10px 16px; background: var(--blue);
-    border-bottom: none;
-    scrollbar-width: none;
-  }
-  .tabs::-webkit-scrollbar { display: none; }
-  .tab {
-    flex-shrink: 0; padding: 6px 14px;
-    border-radius: 999px; border: 1.5px solid rgba(255,255,255,0.4);
-    font-size: 13px; font-weight: 500; cursor: pointer;
-    background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9);
-    transition: all 0.15s;
-  }
-  .tab.active { background: #fff; border-color: #fff; }
-  .tab[data-f="all"].active { color: var(--blue-deep); }
-  .tab[data-f="supplier"].active { color: var(--supplier); }
-  .tab[data-f="mandy"].active { color: var(--mandy); }
-  .tab[data-f="jean"].active { color: var(--jean); }
-  .tab[data-f="kassy"].active { color: var(--kassy); }
-  .tab[data-f="isabel"].active { color: var(--isabel); }
+.sup-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
+.sup-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px;cursor:pointer;active:transform:scale(0.97)}
+.sup-card:active{transform:scale(0.97)}
+.sup-ico{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;margin-bottom:10px}
+.sup-name{font-size:14px;font-weight:700;color:var(--text)}
+.sup-tel{font-size:11px;color:var(--text3);margin-bottom:8px}
+.sup-pbar-bg{height:4px;border-radius:999px;background:var(--gray-cool);overflow:hidden;margin-top:6px}
+.sup-pbar-fill{height:100%;border-radius:999px;transition:width 0.4s}
+.sup-count{font-size:11px;color:var(--text2);margin-top:4px}
 
-  /* ── CONTENT ── */
-  .content { padding: 16px; padding-bottom: calc(var(--tab-h) + 20px); }
+.person-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:6px}
+.person-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px;cursor:pointer}
+.person-card:active{transform:scale(0.97)}
+.p-ava{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;margin-bottom:8px}
+.p-name{font-size:15px;font-weight:700}
+.p-role{font-size:11px;color:var(--text3);margin-bottom:8px}
+.p-pbar-bg{height:4px;border-radius:999px;background:var(--gray-cool);overflow:hidden}
+.p-pbar-fill{height:100%;border-radius:999px;transition:width 0.4s}
+.p-count{font-size:11px;color:var(--text2);margin-top:4px}
+.p-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.p-chip{font-size:10px;padding:2px 7px;border-radius:999px;background:var(--surface2);color:var(--text2)}
 
-  /* ── SECTION ── */
-  .section { margin-bottom: 20px; }
-  .section-head {
-    display: flex; align-items: center; gap: 8px;
-    margin-bottom: 8px; padding: 0 2px;
-  }
-  .avatar {
-    width: 30px; height: 30px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 700; flex-shrink: 0;
-  }
-  .section-name { font-size: 14px; font-weight: 700; }
-  .section-meta { font-size: 12px; color: var(--text2); }
-  .tel { font-size: 11px; color: var(--text3); margin-left: auto; }
+/* LIST */
+.search-wrap{padding:10px 16px;background:var(--blue)}
+.search-input{width:100%;padding:9px 16px;background:rgba(255,255,255,0.92);border:none;border-radius:999px;font-size:15px;font-family:inherit;color:var(--text);outline:none}
+.tabs{display:flex;overflow-x:auto;gap:6px;padding:10px 16px;background:var(--blue);scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:6px 14px;border-radius:999px;border:1.5px solid rgba(255,255,255,0.4);font-size:13px;font-weight:500;cursor:pointer;background:rgba(255,255,255,0.15);color:rgba(255,255,255,0.9)}
+.tab.active{background:#fff;border-color:#fff;color:var(--blue-deep)}
+.prog-wrap{padding:12px 16px 8px;background:var(--surface);border-bottom:1px solid var(--border)}
+.prog-lbl{font-size:12px;color:var(--text2);display:flex;justify-content:space-between;margin-bottom:5px}
+.prog-bg{background:var(--gray-cool);border-radius:999px;height:6px;overflow:hidden}
+.prog-bar{height:100%;border-radius:999px;background:var(--blue);transition:width 0.3s}
+.list-content{padding:14px 16px}
+.section{margin-bottom:20px}
+.sec-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.sec-ava{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.sec-name{font-size:14px;font-weight:700}
+.sec-meta{font-size:11px;color:var(--text3)}
+.sec-tel{font-size:11px;color:var(--text3);margin-left:auto}
 
-  /* ── ITEM CARD ── */
-  .item {
-    background: var(--surface); border-radius: var(--radius);
-    border: 1px solid var(--border);
-    padding: 14px 16px; margin-bottom: 8px;
-    display: flex; align-items: flex-start; gap: 12px;
-    transition: opacity 0.2s;
-    cursor: pointer;
-  }
-  .item.done { opacity: 0.45; }
-  .item.done .item-name { text-decoration: line-through; color: var(--text3); }
+/* ITEM */
+.item{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:8px;transition:opacity 0.2s}
+.item.done{opacity:0.42}
+.item.done .item-name{text-decoration:line-through;color:var(--text3)}
+.item-top{display:flex;align-items:flex-start;gap:10px;cursor:pointer}
+.chk{width:22px;height:22px;flex-shrink:0;border-radius:7px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;margin-top:2px}
+.item.done .chk{border-color:transparent;background:var(--blue-light)}
+.chk-icon{display:none}
+.item.done .chk-icon{display:block}
+.chk-icon svg{width:13px;height:13px}
+.item-body{flex:1;min-width:0}
+.item-name{font-size:15px;font-weight:500;margin-bottom:3px}
+.item-unit{font-size:12px;color:var(--text2)}
+.item-note-chip{display:inline-block;margin-top:5px;font-size:11px;padding:2px 8px;border-radius:6px;background:#fff6b0;color:#7a5a00}
+.item-summary{font-size:11px;color:var(--text3);margin-top:5px;line-height:1.6}
+.expand-btn{font-size:11px;color:var(--blue-deep);background:none;border:none;cursor:pointer;padding:2px 0;margin-top:6px;display:block}
 
-  .check-box {
-    width: 22px; height: 22px; flex-shrink: 0;
-    border-radius: 6px; border: 2px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.15s; margin-top: 1px;
-  }
-  .item.done .check-box { border-color: transparent; background: var(--blue-light); }
-  .check-icon { display: none; }
-  .item.done .check-icon { display: block; }
-  .check-icon svg { width: 13px; height: 13px; }
+/* DETAIL */
+.item-detail{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.item.open .item-detail{display:block}
+.detail-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.d-field label{display:block;font-size:11px;color:var(--text3);margin-bottom:4px}
+.d-field input{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:10px;font-size:13px;font-family:inherit;color:var(--text);background:var(--surface2);outline:none}
+.d-field input:focus{border-color:var(--blue);background:#fff}
+.d-note label{display:block;font-size:11px;color:var(--text3);margin-bottom:4px}
+.d-note textarea{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:10px;font-size:13px;font-family:inherit;color:var(--text);background:var(--surface2);outline:none;resize:none;height:64px}
+.d-note textarea:focus{border-color:var(--blue);background:#fff}
 
-  .item-body { flex: 1; min-width: 0; }
-  .item-name { font-size: 15px; font-weight: 500; margin-bottom: 3px; }
-  .item-unit { font-size: 12px; color: var(--text2); }
-  .item-note {
-    display: inline-block; margin-top: 6px;
-    font-size: 11px; padding: 3px 8px; border-radius: 6px;
-    background: #fff6b0; color: #7a5a00;
-  }
-
-  /* ── BOTTOM NAV ── */
-  .bottom-nav {
-    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
-    height: var(--tab-h);
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-around;
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-  .nav-btn {
-    flex: 1; display: flex; flex-direction: column;
-    align-items: center; gap: 3px;
-    font-size: 10px; color: var(--text3);
-    background: none; border: none; cursor: pointer;
-    padding: 8px 0; transition: color 0.15s;
-  }
-  .nav-btn svg { width: 22px; height: 22px; }
-  .nav-btn.active { color: var(--blue-deep); }
-
-  /* ── PROGRESS ── */
-  .progress-wrap { padding: 0 16px 16px; }
-  .progress-bar-bg { background: var(--surface2); border-radius: 999px; height: 6px; overflow: hidden; }
-  .progress-bar { height: 100%; border-radius: 999px; background: var(--blue); transition: width 0.3s; }
-  .progress-label { font-size: 12px; color: var(--text2); margin-bottom: 6px; display: flex; justify-content: space-between; }
-
-  /* ── EMPTY ── */
-  .empty { text-align: center; color: var(--text3); padding: 3rem 1rem; font-size: 14px; }
-
-  /* ── STATS PAGE ── */
-  .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
-  .stat-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 14px;
-  }
-  .stat-num { font-size: 28px; font-weight: 700; }
-  .stat-label { font-size: 12px; color: var(--text2); margin-top: 2px; }
-  .person-row {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 12px 16px;
-    display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
-  }
-  .person-mini-bar { flex: 1; height: 6px; background: var(--surface2); border-radius: 999px; overflow: hidden; }
-  .person-mini-fill { height: 100%; border-radius: 999px; transition: width 0.4s; }
-  .person-count { font-size: 12px; color: var(--text2); min-width: 40px; text-align: right; }
-
-  /* PAGE SWITCHING */
-  .page { display: none; }
-  .page.active { display: block; }
-
-  .install-banner {
-    background: var(--yellow); border-bottom: 1px solid rgba(0,0,0,0.08);
-    padding: 10px 16px; display: flex; align-items: center; gap: 10px; font-size: 13px; color: #5a4000;
-  }
-  .install-banner button {
-    margin-left: auto; background: var(--blue-deep); color: #fff;
-    border: none; border-radius: 999px; padding: 5px 14px; font-size: 12px; cursor: pointer;
-  }
-  .install-x { background: none; border: none; color: #8a7000; font-size: 18px; cursor: pointer; padding: 0 4px; }
+/* STATS */
+.stats-content{padding:16px}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px}
+.stat-num{font-size:28px;font-weight:700}
+.stat-lbl{font-size:12px;color:var(--text2);margin-top:2px}
+.prow{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.prow-bar{flex:1;height:6px;background:var(--gray-cool);border-radius:999px;overflow:hidden}
+.prow-fill{height:100%;border-radius:999px;transition:width 0.4s}
+.prow-count{font-size:12px;color:var(--text2);min-width:36px;text-align:right}
+.empty{text-align:center;color:var(--text3);padding:3rem 1rem;font-size:14px}
+.stats-sec-title{font-size:13px;font-weight:700;color:var(--text2);margin-bottom:10px}
 </style>
 </head>
 <body>
 
-<div class="install-banner" id="install-banner">
-  <span>安裝到主畫面，離線也能用</span>
-  <button id="install-btn">安裝</button>
-  <button class="install-x" onclick="document.getElementById('install-banner').style.display='none'">×</button>
+<div class="hdr" id="main-header">
+  <div class="hdr-title" id="hdr-title">總務採購</div>
+  <span class="hdr-badge" id="done-badge">0 / 0</span>
+  <button class="hdr-btn" onclick="resetAll()">重置</button>
 </div>
 
-<div class="header">
-  <div class="header-title">總務採購</div>
-  <span class="header-badge" id="done-badge">0 / 0 完成</span>
-  <button class="reset-btn" onclick="resetAll()">重置</button>
-</div>
-
-<div class="search-wrap">
-  <input class="search-input" type="search" placeholder="搜尋品項..." id="search" oninput="render()" />
-</div>
-
-<div class="tabs" id="tabs">
-  <div class="tab active" data-f="all" onclick="setFilter('all',this)">全部</div>
-  <div class="tab" data-f="supplier" onclick="setFilter('supplier',this)">供應商</div>
-  <div class="tab" data-f="mandy" onclick="setFilter('mandy',this)">Mandy</div>
-  <div class="tab" data-f="jean" onclick="setFilter('jean',this)">Jean</div>
-  <div class="tab" data-f="kassy" onclick="setFilter('kassy',this)">Kassy</div>
-  <div class="tab" data-f="isabel" onclick="setFilter('isabel',this)">Isabel</div>
-</div>
-
-<div id="page-list" class="page active">
-  <div class="progress-wrap" style="padding-top:14px;">
-    <div class="progress-label"><span>本次採購進度</span><span id="prog-text">0%</span></div>
-    <div class="progress-bar-bg"><div class="progress-bar" id="prog-bar" style="width:0%"></div></div>
+<!-- HOME -->
+<div id="page-home" class="page active">
+  <div class="home-hero">
+    <div class="home-greeting">今日採購概況</div>
+    <div class="home-bigtitle">總務採購管理</div>
+    <div class="home-prog-row"><span>整體進度</span><span id="home-pct">0%</span></div>
+    <div class="home-prog-bg"><div class="home-prog-fill" id="home-prog" style="width:0%"></div></div>
   </div>
-  <div class="content" id="content"></div>
+  <div class="home-sec">
+    <div class="home-sec-label">供應商</div>
+    <div class="sup-grid" id="sup-grid"></div>
+  </div>
+  <div class="home-sec">
+    <div class="home-sec-label">負責人</div>
+    <div class="person-grid" id="person-grid"></div>
+  </div>
 </div>
 
+<!-- LIST -->
+<div id="page-list" class="page">
+  <div class="search-wrap">
+    <input class="search-input" type="search" placeholder="搜尋品項..." id="search" oninput="renderList()">
+  </div>
+  <div class="tabs">
+    <div class="tab active" data-f="all" onclick="setFilter('all',this)">全部</div>
+    <div class="tab" data-f="supplier" onclick="setFilter('supplier',this)">供應商</div>
+    <div class="tab" data-f="mandy" onclick="setFilter('mandy',this)">Mandy</div>
+    <div class="tab" data-f="jean" onclick="setFilter('jean',this)">Jean</div>
+    <div class="tab" data-f="kassy" onclick="setFilter('kassy',this)">Kassy</div>
+    <div class="tab" data-f="isabel" onclick="setFilter('isabel',this)">Isabel</div>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-lbl"><span>採購進度</span><span id="prog-txt">0%</span></div>
+    <div class="prog-bg"><div class="prog-bar" id="prog-bar" style="width:0%"></div></div>
+  </div>
+  <div class="list-content" id="list-content"></div>
+</div>
+
+<!-- STATS -->
 <div id="page-stats" class="page">
-  <div class="content">
-    <div class="stats-grid" id="stats-grid"></div>
-    <div style="font-size:13px;font-weight:700;color:var(--text2);margin-bottom:10px;">各負責人進度</div>
+  <div class="stats-content">
+    <div class="stat-grid" id="stat-grid"></div>
+    <div class="stats-sec-title">各負責人進度</div>
     <div id="person-stats"></div>
   </div>
 </div>
 
-<nav class="bottom-nav">
-  <button class="nav-btn active" id="nav-list" onclick="showPage('list')">
+<nav class="bnav">
+  <button class="bnav-btn active" id="nav-home" onclick="showPage('home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    首頁
+  </button>
+  <button class="bnav-btn" id="nav-list" onclick="showPage('list')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
     採購清單
   </button>
-  <button class="nav-btn" id="nav-stats" onclick="showPage('stats')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+  <button class="bnav-btn" id="nav-stats" onclick="showPage('stats')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
     統計
   </button>
 </nav>
 
 <script>
 const PERSONS = {
-  supplier: { label: '供應商', color: '#185fa5', bg: '#e6f1fb' },
-  mandy:    { label: 'Mandy',  color: '#d4537e', bg: '#fbeaf0' },
-  jean:     { label: 'Jean',   color: '#ba7517', bg: '#faeeda' },
-  kassy:    { label: 'Kassy',  color: '#534ab7', bg: '#eeedfe' },
-  isabel:   { label: 'Isabel', color: '#0f6e56', bg: '#e1f5ee' },
+  supplier:{ label:'供應商', color:'#2a5fcf', bg:'#deeaf8' },
+  mandy:   { label:'Mandy',  color:'#e06fa0', bg:'#fce8f2' },
+  jean:    { label:'Jean',   color:'#c49a00', bg:'#fff9d0' },
+  kassy:   { label:'Kassy',  color:'#5a7ee0', bg:'#dce5ff' },
+  isabel:  { label:'Isabel', color:'#3aaa7a', bg:'#d0f5e6' },
 };
 
 const SECTIONS = [
-  {
-    id: 'beifeng', person: 'supplier',
-    name: '北峰', tel: '2269-4000', meta: '收據月結（隔天到）',
-    items: [
-      { id: 'bf1', name: 'A4 白影印紙', unit: '一箱 10 包' },
-      { id: 'bf2', name: 'A4 彩色紙（嫩黃/粉/藍/綠）', unit: '1 包' },
-      { id: 'bf3', name: 'B4 白紙', unit: '1 包' },
-    ]
-  },
-  {
-    id: 'haohua', person: 'supplier',
-    name: '豪華清潔用品', tel: '2296-1620', meta: '月結收據',
-    items: [
-      { id: 'hh1', name: '衛生紙', unit: '4 箱（至少 4 箱）', price: '$380/箱' },
-      { id: 'hh2', name: '擦手紙', unit: '4 箱（至少 4 箱）', price: '$550/箱' },
-      { id: 'hh3', name: '紙杯', unit: '1 箱（1箱=11條）', price: '$650/箱' },
-    ]
-  },
-  {
-    id: 'mandy', person: 'mandy',
-    name: 'Mandy', meta: '總處文具採購',
-    items: [
-      { id: 'm1', name: '白板筆（紅黑藍綠橘）', unit: '1 盒' },
-      { id: 'm2', name: '白板筆墨水（紅黑藍綠橘）', unit: '1 盒' },
-      { id: 'm3', name: 'A4 / A3 護貝紙', unit: '1 盒' },
-      { id: 'm4', name: '圖書袋', unit: '___ 個' },
-      { id: 'm5', name: '圖書卡', unit: '___ 個' },
-      { id: 'm6', name: '3M 透明膠帶', unit: '___ 個' },
-      { id: 'm7', name: '哥大貼紙', unit: '___ 個' },
-      { id: 'm8', name: '電腦標籤貼（常用104號）', unit: '1 盒' },
-      { id: 'm9', name: 'A4 自黏袋', unit: '1 綑 500 個' },
-    ]
-  },
-  {
-    id: 'jean', person: 'jean',
-    name: 'Jean', meta: '總處文具採購',
-    items: [
-      { id: 'j1', name: '酒精（問 Alin）', unit: '___ 罐（本校＋三校）' },
-      { id: 'j2', name: '洗手乳（問 Alin）', unit: '一箱 12 瓶' },
-      { id: 'j3', name: '餅乾', unit: '—', note: '跟叔叔確認二四時間點再 mail 給 Jean' },
-      { id: 'j4', name: '白色信封', unit: '___ 個（基本 300 個）' },
-      { id: 'j5', name: '書盒', unit: '___ 箱', note: '每學期新學期開始前一個月叫貨' },
-      { id: 'j6', name: '哥大藍色提袋', unit: '___ 個', note: '新學期前一個月，需 ≥ 新生人數' },
-      { id: 'j7', name: '哥大鉛筆', unit: '___ 包（一包 144 枝）' },
-      { id: 'j8', name: '哥大 DM', unit: '___ 張（一箱 500 張，至少一箱）' },
-      { id: 'j9', name: '哥大氣球用品', unit: '___ 包' },
-      { id: 'j10', name: '哥大衛生紙', unit: '___ 箱（一箱 1000 包）' },
-    ]
-  },
-  {
-    id: 'kassy', person: 'kassy',
-    name: 'Kassy', meta: '總處採購',
-    items: [
-      { id: 'k1', name: '藍色信封', unit: '—' },
-      { id: 'k2', name: 'ES 教材包', unit: '—' },
-      { id: 'k3', name: 'Flashcard 彩色列印', unit: '—' },
-      { id: 'k4', name: 'ES 繪本', unit: '—' },
-    ]
-  },
-  {
-    id: 'isabel', person: 'isabel',
-    name: 'Isabel', meta: '圖書館管理',
-    items: [
-      { id: 'i1', name: '圖書館採購', unit: '—' },
-      { id: 'i2', name: '庫存管理', unit: '—' },
-    ]
-  },
+  { id:'beifeng', person:'supplier', name:'北峰', tel:'2269-4000', meta:'收據月結（隔天到）', items:[
+    {id:'bf1',name:'A4 白影印紙',unit:'一箱 10 包'},
+    {id:'bf2a',name:'A4 彩色紙 — 嫩黃',unit:'1 包'},
+    {id:'bf2b',name:'A4 彩色紙 — 嫩粉',unit:'1 包'},
+    {id:'bf2c',name:'A4 彩色紙 — 嫩藍',unit:'1 包'},
+    {id:'bf2d',name:'A4 彩色紙 — 嫩綠',unit:'1 包'},
+    {id:'bf3',name:'B4 白紙',unit:'1 包'},
+  ]},
+  { id:'haohua', person:'supplier', name:'豪華清潔用品', tel:'2296-1620', meta:'月結收據', items:[
+    {id:'hh1',name:'衛生紙',unit:'4 箱（至少 4 箱）',price:'$380/箱'},
+    {id:'hh2',name:'擦手紙',unit:'4 箱（至少 4 箱）',price:'$550/箱'},
+    {id:'hh3',name:'紙杯',unit:'1 箱（1箱=11條）',price:'$650/箱'},
+  ]},
+  { id:'mandy', person:'mandy', name:'Mandy', meta:'總處文具採購', items:[
+    {id:'m1',name:'白板筆（紅黑藍綠橘）',unit:'1 盒'},
+    {id:'m2',name:'白板筆墨水（紅黑藍綠橘）',unit:'1 盒'},
+    {id:'m3',name:'A4 / A3 護貝紙',unit:'1 盒'},
+    {id:'m4',name:'圖書袋',unit:'___ 個'},
+    {id:'m5',name:'圖書卡',unit:'___ 個'},
+    {id:'m6',name:'3M 透明膠帶',unit:'___ 個'},
+    {id:'m7',name:'哥大貼紙',unit:'___ 個'},
+    {id:'m8',name:'電腦標籤貼（常用104號）',unit:'1 盒'},
+    {id:'m9',name:'A4 自黏袋',unit:'1 綑 500 個'},
+  ]},
+  { id:'jean', person:'jean', name:'Jean', meta:'總處文具採購', items:[
+    {id:'j1',name:'酒精（問 Alin）',unit:'___ 罐（本校＋三校）'},
+    {id:'j2',name:'洗手乳（問 Alin）',unit:'一箱 12 瓶'},
+    {id:'j3',name:'餅乾',unit:'—',note:'跟叔叔確認二四時間點再 mail 給 Jean'},
+    {id:'j4',name:'白色信封',unit:'___ 個（基本 300 個）'},
+    {id:'j5',name:'書盒',unit:'___ 箱',note:'每學期新學期開始前一個月叫貨'},
+    {id:'j6',name:'哥大藍色提袋',unit:'___ 個',note:'新學期前一個月，需 ≥ 新生人數'},
+    {id:'j7',name:'哥大鉛筆',unit:'___ 包（一包 144 枝）'},
+    {id:'j8',name:'哥大 DM',unit:'___ 張（一箱 500 張，至少一箱）'},
+    {id:'j9',name:'哥大氣球用品',unit:'___ 包'},
+    {id:'j10',name:'哥大衛生紙',unit:'___ 箱（一箱 1000 包）'},
+  ]},
+  { id:'kassy', person:'kassy', name:'Kassy', meta:'總處採購', items:[
+    {id:'k1',name:'藍色信封',unit:'—'},
+    {id:'k2',name:'ES 教材包',unit:'—'},
+    {id:'k3',name:'Flashcard 彩色列印',unit:'—'},
+    {id:'k4',name:'ES 繪本',unit:'—'},
+  ]},
+  { id:'isabel', person:'isabel', name:'Isabel', meta:'圖書館管理', items:[
+    {id:'i1',name:'圖書館採購',unit:'—'},
+    {id:'i2',name:'庫存管理',unit:'—'},
+  ]},
 ];
 
-let done = JSON.parse(localStorage.getItem('done') || '{}');
+const ALL_ITEMS = SECTIONS.flatMap(s=>s.items);
+let state = JSON.parse(localStorage.getItem('pstate')||'{}');
 let filter = 'all';
+let openSet = new Set();
+let currentPage = 'home';
 
-function save() { localStorage.setItem('done', JSON.stringify(done)); }
+function gs(id){ return state[id]||(state[id]={}); }
+function save(){ localStorage.setItem('pstate',JSON.stringify(state)); }
 
-function toggle(id) {
-  done[id] = !done[id];
-  if (!done[id]) delete done[id];
-  save(); render(); renderStats();
+function pct(d,t){ return t?Math.round(d/t*100):0; }
+function totalDone(){ return ALL_ITEMS.filter(it=>gs(it.id).done).length; }
+
+function updateBadge(){
+  const d=totalDone(),t=ALL_ITEMS.length;
+  document.getElementById('done-badge').textContent=d+' / '+t;
 }
 
-function resetAll() {
-  if (confirm('確定重置所有勾選？')) { done = {}; save(); render(); renderStats(); }
+/* ── HOME ── */
+function renderHome(){
+  const d=totalDone(),t=ALL_ITEMS.length,p=pct(d,t);
+  document.getElementById('home-pct').textContent=p+'%';
+  document.getElementById('home-prog').style.width=p+'%';
+
+  const supSecs=SECTIONS.filter(s=>s.person==='supplier');
+  document.getElementById('sup-grid').innerHTML=supSecs.map(sec=>{
+    const sd=sec.items.filter(it=>gs(it.id).done).length;
+    const sp=pct(sd,sec.items.length);
+    const pr=PERSONS[sec.person];
+    return `<div class="sup-card" onclick="goToSection('${sec.id}')">
+      <div class="sup-ico" style="background:${pr.bg};color:${pr.color}">${sec.name.slice(0,2)}</div>
+      <div class="sup-name">${sec.name}</div>
+      <div class="sup-tel">${sec.tel||''}</div>
+      <div class="sup-count">${sd}/${sec.items.length} 品項</div>
+      <div class="sup-pbar-bg"><div class="sup-pbar-fill" style="width:${sp}%;background:${pr.color}"></div></div>
+    </div>`;
+  }).join('');
+
+  const persons=['mandy','jean','kassy','isabel'];
+  document.getElementById('person-grid').innerHTML=persons.map(pid=>{
+    const secs=SECTIONS.filter(s=>s.person===pid);
+    const items=secs.flatMap(s=>s.items);
+    const pd=items.filter(it=>gs(it.id).done).length;
+    const pp=pct(pd,items.length);
+    const pr=PERSONS[pid];
+    const chips=items.slice(0,3).map(it=>`<span class="p-chip">${it.name.length>7?it.name.slice(0,7)+'…':it.name}</span>`).join('');
+    const more=items.length>3?`<span class="p-chip">+${items.length-3}</span>`:'';
+    return `<div class="person-card" onclick="goToSection('${secs[0]?.id||pid}')">
+      <div class="p-ava" style="background:${pr.bg};color:${pr.color}">${pr.label.slice(0,2)}</div>
+      <div class="p-name">${pr.label}</div>
+      <div class="p-role">${pd}/${items.length} 完成</div>
+      <div class="p-pbar-bg"><div class="p-pbar-fill" style="width:${pp}%;background:${pr.color}"></div></div>
+      <div class="p-count">${pp}%</div>
+      <div class="p-chips">${chips}${more}</div>
+    </div>`;
+  }).join('');
 }
 
-function setFilter(f, el) {
-  filter = f;
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+/* ── LIST ── */
+function setFilter(f,el){
+  filter=f;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
-  render();
+  renderList();
 }
 
-function render() {
-  const q = document.getElementById('search').value.toLowerCase();
-  const content = document.getElementById('content');
-  const allItems = SECTIONS.flatMap(s => s.items);
-  const totalDone = allItems.filter(it => done[it.id]).length;
+function toggleDone(id){ const s=gs(id); s.done=!s.done; if(!s.done) delete s.done; save(); refreshAll(); }
+function saveField(id,field,val){ gs(id)[field]=val; save(); }
+function toggleOpen(id){ openSet.has(id)?openSet.delete(id):openSet.add(id); renderList(); }
 
-  document.getElementById('done-badge').textContent = `${totalDone} / ${allItems.length} 完成`;
-  const pct = Math.round(totalDone / allItems.length * 100);
-  document.getElementById('prog-bar').style.width = pct + '%';
-  document.getElementById('prog-text').textContent = pct + '%';
+function renderList(){
+  const q=(document.getElementById('search').value||'').toLowerCase();
+  const d=totalDone(),t=ALL_ITEMS.length,p=pct(d,t);
+  document.getElementById('prog-bar').style.width=p+'%';
+  document.getElementById('prog-txt').textContent=p+'%';
 
-  let html = '';
-  let anyVisible = false;
-
-  SECTIONS.forEach(sec => {
-    if (filter !== 'all' && filter !== sec.person) return;
-    const visItems = sec.items.filter(it => !q || it.name.toLowerCase().includes(q));
-    if (!visItems.length) return;
-    anyVisible = true;
-
-    const p = PERSONS[sec.person];
-    const initials = sec.name.slice(0, 2);
-    html += `<div class="section">
-      <div class="section-head">
-        <div class="avatar" style="background:${p.bg};color:${p.color}">${initials}</div>
-        <div>
-          <div class="section-name">${sec.name}</div>
-          <div class="section-meta">${sec.meta}</div>
-        </div>
-        ${sec.tel ? `<div class="tel">${sec.tel}</div>` : ''}
+  let html='',any=false;
+  SECTIONS.forEach(sec=>{
+    if(filter!=='all'&&filter!==sec.person) return;
+    const vis=sec.items.filter(it=>!q||it.name.toLowerCase().includes(q));
+    if(!vis.length) return;
+    any=true;
+    const pr=PERSONS[sec.person];
+    html+=`<div class="section" id="sec-${sec.id}">
+      <div class="sec-head">
+        <div class="sec-ava" style="background:${pr.bg};color:${pr.color}">${sec.name.slice(0,2)}</div>
+        <div><div class="sec-name">${sec.name}</div><div class="sec-meta">${sec.meta}</div></div>
+        ${sec.tel?`<div class="sec-tel">${sec.tel}</div>`:''}
       </div>`;
-
-    visItems.forEach(it => {
-      const isDone = !!done[it.id];
-      html += `<div class="item${isDone ? ' done' : ''}" onclick="toggle('${it.id}')">
-        <div class="check-box">
-          <span class="check-icon"><svg viewBox="0 0 13 13" fill="none" stroke="#2a5fcf" stroke-width="2.5"><polyline points="1.5,6.5 5,10 11,2"/></svg></span>
+    vis.forEach(it=>{
+      const s=gs(it.id);
+      const isDone=!!s.done, isOpen=openSet.has(it.id);
+      const qty=s.qty||'', ld=s.lastDate||'', note=s.note||'';
+      const hasMeta=qty||ld||note;
+      const summaryParts=[];
+      if(qty) summaryParts.push('現有：'+qty);
+      if(ld) summaryParts.push('上次叫貨：'+ld);
+      if(note) summaryParts.push('備註：'+note.slice(0,18)+(note.length>18?'…':''));
+      html+=`<div class="item${isDone?' done':''}${isOpen?' open':''}">
+        <div class="item-top" onclick="toggleDone('${it.id}')">
+          <div class="chk"><span class="chk-icon"><svg viewBox="0 0 13 13" fill="none" stroke="#2a5fcf" stroke-width="2.5"><polyline points="1.5,6.5 5,10 11,2"/></svg></span></div>
+          <div class="item-body">
+            <div class="item-name">${it.name}</div>
+            <div class="item-unit">訂購單位：${it.unit}${it.price?'　'+it.price:''}</div>
+            ${it.note?`<span class="item-note-chip">${it.note}</span>`:''}
+            ${hasMeta&&!isOpen?`<div class="item-summary">${summaryParts.join('　')}</div>`:''}
+          </div>
         </div>
-        <div class="item-body">
-          <div class="item-name">${it.name}</div>
-          <div class="item-unit">訂購單位：${it.unit}${it.price ? '　' + it.price : ''}</div>
-          ${it.note ? `<span class="item-note">${it.note}</span>` : ''}
+        <button class="expand-btn" onclick="toggleOpen('${it.id}')">${isOpen?'▲ 收起':'▼ 展開：數量 / 叫貨日 / 備註'}</button>
+        <div class="item-detail">
+          <div class="detail-row">
+            <div class="d-field"><label>現有數量</label><input type="text" placeholder="例：3箱" value="${qty}" oninput="saveField('${it.id}','qty',this.value)"></div>
+            <div class="d-field"><label>上次叫貨日期</label><input type="date" value="${ld}" onchange="saveField('${it.id}','lastDate',this.value)"></div>
+          </div>
+          <div class="d-note"><label>備註</label><textarea placeholder="數量、特殊需求…" oninput="saveField('${it.id}','note',this.value)">${note}</textarea></div>
         </div>
       </div>`;
     });
-    html += '</div>';
+    html+='</div>';
   });
-
-  content.innerHTML = anyVisible ? html : '<div class="empty">找不到符合的品項</div>';
+  document.getElementById('list-content').innerHTML=any?html:'<div class="empty">找不到符合的品項</div>';
 }
 
-function renderStats() {
-  const allItems = SECTIONS.flatMap(s => s.items);
-  const totalDone = allItems.filter(it => done[it.id]).length;
-  const total = allItems.length;
-
-  document.getElementById('stats-grid').innerHTML = `
-    <div class="stat-card"><div class="stat-num">${total}</div><div class="stat-label">總品項數</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:#2a5fcf">${totalDone}</div><div class="stat-label">已訂購</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:#c49a00">${total - totalDone}</div><div class="stat-label">待訂購</div></div>
-    <div class="stat-card"><div class="stat-num">${Math.round(totalDone/total*100)}%</div><div class="stat-label">完成率</div></div>
+/* ── STATS ── */
+function renderStats(){
+  const d=totalDone(),t=ALL_ITEMS.length;
+  document.getElementById('stat-grid').innerHTML=`
+    <div class="stat-card"><div class="stat-num">${t}</div><div class="stat-lbl">總品項數</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#2a5fcf">${d}</div><div class="stat-lbl">已訂購</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:#c49a00">${t-d}</div><div class="stat-lbl">待訂購</div></div>
+    <div class="stat-card"><div class="stat-num">${pct(d,t)}%</div><div class="stat-lbl">完成率</div></div>
   `;
-
-  let personHtml = '';
-  const personOrder = ['supplier','mandy','jean','kassy','isabel'];
-  personOrder.forEach(pid => {
-    const sections = SECTIONS.filter(s => s.person === pid);
-    const items = sections.flatMap(s => s.items);
-    const doneCount = items.filter(it => done[it.id]).length;
-    const pct = items.length ? Math.round(doneCount / items.length * 100) : 0;
-    const p = PERSONS[pid];
-    personHtml += `<div class="person-row">
-      <div class="avatar" style="background:${p.bg};color:${p.color};width:28px;height:28px;font-size:11px">${p.label.slice(0,2)}</div>
+  const order=['supplier','mandy','jean','kassy','isabel'];
+  document.getElementById('person-stats').innerHTML=order.map(pid=>{
+    const items=SECTIONS.filter(s=>s.person===pid).flatMap(s=>s.items);
+    const pd=items.filter(it=>gs(it.id).done).length;
+    const pp=pct(pd,items.length);
+    const pr=PERSONS[pid];
+    return `<div class="prow">
+      <div class="sec-ava" style="background:${pr.bg};color:${pr.color};width:28px;height:28px;font-size:10px">${pr.label.slice(0,2)}</div>
       <div style="flex:1;min-width:0">
-        <div style="font-size:13px;font-weight:500;margin-bottom:5px">${p.label}</div>
-        <div class="person-mini-bar"><div class="person-mini-fill" style="width:${pct}%;background:${p.color}"></div></div>
+        <div style="font-size:13px;font-weight:500;margin-bottom:4px">${pr.label}</div>
+        <div class="prow-bar"><div class="prow-fill" style="width:${pp}%;background:${pr.color}"></div></div>
       </div>
-      <div class="person-count">${doneCount}/${items.length}</div>
+      <div class="prow-count">${pd}/${items.length}</div>
     </div>`;
+  }).join('');
+}
+
+/* ── NAV ── */
+function showPage(name){
+  ['home','list','stats'].forEach(p=>{
+    document.getElementById('page-'+p).classList.toggle('active',p===name);
+    document.getElementById('nav-'+p).classList.toggle('active',p===name);
   });
-  document.getElementById('person-stats').innerHTML = personHtml;
+  currentPage=name;
+  const titles={home:'總務採購',list:'採購清單',stats:'統計總覽'};
+  document.getElementById('hdr-title').textContent=titles[name];
+  if(name==='home') renderHome();
+  if(name==='list') renderList();
+  if(name==='stats') renderStats();
 }
 
-function showPage(name) {
-  document.getElementById('page-list').classList.toggle('active', name === 'list');
-  document.getElementById('page-stats').classList.toggle('active', name === 'stats');
-  document.getElementById('nav-list').classList.toggle('active', name === 'list');
-  document.getElementById('nav-stats').classList.toggle('active', name === 'stats');
-  if (name === 'stats') renderStats();
+function goToSection(secId){
+  showPage('list');
+  filter='all';
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelector('.tab[data-f="all"]').classList.add('active');
+  renderList();
+  setTimeout(()=>{ const el=document.getElementById('sec-'+secId); if(el) el.scrollIntoView({behavior:'smooth'}); },120);
 }
 
-// PWA install
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault(); deferredPrompt = e;
-  document.getElementById('install-banner').style.display = 'flex';
-});
-document.getElementById('install-btn').addEventListener('click', () => {
-  if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; }
-  document.getElementById('install-banner').style.display = 'none';
-});
-window.addEventListener('appinstalled', () => {
-  document.getElementById('install-banner').style.display = 'none';
-});
-
-render();
-
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js').catch(() => {});
+function resetAll(){
+  if(confirm('確定重置所有資料？（包含數量、日期、備註）')){
+    state={}; save(); openSet.clear(); refreshAll();
+  }
 }
+
+function refreshAll(){
+  updateBadge();
+  if(currentPage==='home') renderHome();
+  if(currentPage==='list') renderList();
+  if(currentPage==='stats') renderStats();
+}
+
+updateBadge(); renderHome();
+if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
 </script>
 </body>
 </html>
